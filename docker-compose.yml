@@ -1,0 +1,9 @@
+  services:                                                                                                                                                 
+    immichframe-config:                                                                                                                                     
+      build: .                                                                                                                                              
+      container_name: immichframe-config                                                                                                                    
+      ports:                                                                                                                                                
+        - "5050:5000"                                                                                                                                       
+      volumes:                                                                                                                                              
+        - /opt/immichframe:/config                                                                                                                          
+      restart: unless-stopped
