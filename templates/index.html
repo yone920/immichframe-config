@@ -1,235 +1,381 @@
-<!DOCTYPE html>                                                                                                                                           
-  <html lang="en">                                                                                                                                          
-  <head>                                                                                                                                                    
-      <meta charset="UTF-8">                                                                                                                                
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">                                                                                
-      <title>ImmichFrame Settings</title>                                                                                                                   
-      <style>                                                                                                                                               
-          * { box-sizing: border-box; }                                                                                                                     
-          body {                                                                                                                                            
-              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;                                                               
-              max-width: 800px;                                                                                                                             
-              margin: 0 auto;                                                                                                                               
-              padding: 20px;                                                                                                                                
-              background: #1a1a2e;                                                                                                                          
-              color: #eee;                                                                                                                                  
-          }                                                                                                                                                 
-          h1, h2 { color: #f5deb3; }                                                                                                                        
-          h2 { margin-top: 30px; border-bottom: 1px solid #444; padding-bottom: 10px; }                                                                     
-          .field {                                                                                                                                          
-              margin-bottom: 15px;                                                                                                                          
-          }                                                                                                                                                 
-          label {                                                                                                                                           
-              display: block;                                                                                                                               
-              margin-bottom: 5px;                                                                                                                           
-              color: #aaa;                                                                                                                                  
-              font-size: 14px;                                                                                                                              
-          }                                                                                                                                                 
-          input[type="text"], input[type="number"], select {                                                                                                
-              width: 100%;                                                                                                                                  
-              padding: 10px;                                                                                                                                
-              border: 1px solid #444;                                                                                                                       
-              border-radius: 5px;                                                                                                                           
-              background: #2a2a4e;                                                                                                                          
-              color: #eee;                                                                                                                                  
-              font-size: 16px;                                                                                                                              
-          }                                                                                                                                                 
-          input[type="checkbox"] {                                                                                                                          
-              width: 20px;                                                                                                                                  
-              height: 20px;                                                                                                                                 
-          }                                                                                                                                                 
-          .checkbox-field {                                                                                                                                 
-              display: flex;                                                                                                                                
-              align-items: center;                                                                                                                          
-              gap: 10px;                                                                                                                                    
-          }                                                                                                                                                 
-          .checkbox-field label {                                                                                                                           
-              margin: 0;                                                                                                                                    
-              color: #eee;                                                                                                                                  
-          }                                                                                                                                                 
-          button {                                                                                                                                          
-              background: #f5deb3;                                                                                                                          
-              color: #1a1a2e;                                                                                                                               
-              border: none;                                                                                                                                 
-              padding: 15px 30px;                                                                                                                           
-              font-size: 18px;                                                                                                                              
-              border-radius: 5px;                                                                                                                           
-              cursor: pointer;                                                                                                                              
-              width: 100%;                                                                                                                                  
-              margin-top: 20px;                                                                                                                             
-          }                                                                                                                                                 
-          button:hover { background: #dfc9a0; }                                                                                                             
-          .message {                                                                                                                                        
-              padding: 15px;                                                                                                                                
-              border-radius: 5px;                                                                                                                           
-              margin-top: 20px;                                                                                                                             
-              display: none;                                                                                                                                
-          }                                                                                                                                                 
-          .success { background: #2e7d32; display: block; }                                                                                                 
-          .error { background: #c62828; display: block; }                                                                                                   
-      </style>                                                                                                                                              
-  </head>                                                                                                                                                   
-  <body>                                                                                                                                                    
-      <h1>ImmichFrame Settings</h1>                                                                                                                         
-                                                                                                                                                            
-      <div id="message" class="message"></div>                                                                                                              
-                                                                                                                                                            
-      <form id="settingsForm">                                                                                                                              
-          <h2>Display</h2>                                                                                                                                  
-                                                                                                                                                            
-          <div class="field">                                                                                                                               
-              <label>Interval (seconds)</label>                                                                                                             
-              <input type="number" id="Interval" value="{{ settings.General.Interval }}">                                                                   
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <div class="field">                                                                                                                               
-              <label>Transition Duration (seconds)</label>                                                                                                  
-              <input type="number" id="TransitionDuration" value="{{ settings.General.TransitionDuration }}">                                               
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <div class="field">                                                                                                                               
-              <label>Layout</label>                                                                                                                         
-              <select id="Layout">                                                                                                                          
-                  <option value="splitview" {% if settings.General.Layout == 'splitview' %}selected{% endif %}>Split View</option>                          
-                  <option value="single" {% if settings.General.Layout == 'single' %}selected{% endif %}>Single</option>                                    
-              </select>                                                                                                                                     
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <div class="field checkbox-field">                                                                                                                
-              <input type="checkbox" id="ImageZoom" {% if settings.General.ImageZoom %}checked{% endif %}>                                                  
-              <label>Image Zoom</label>                                                                                                                     
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <div class="field checkbox-field">                                                                                                                
-              <input type="checkbox" id="ImageFill" {% if settings.General.ImageFill %}checked{% endif %}>                                                  
-              <label>Image Fill</label>                                                                                                                     
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <h2>Info Display</h2>                                                                                                                             
-                                                                                                                                                            
-          <div class="field checkbox-field">                                                                                                                
-              <input type="checkbox" id="ShowClock" {% if settings.General.ShowClock %}checked{% endif %}>                                                  
-              <label>Show Clock</label>                                                                                                                     
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <div class="field checkbox-field">                                                                                                                
-              <input type="checkbox" id="ShowPhotoDate" {% if settings.General.ShowPhotoDate %}checked{% endif %}>                                          
-              <label>Show Photo Date</label>                                                                                                                
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <div class="field checkbox-field">                                                                                                                
-              <input type="checkbox" id="ShowImageDesc" {% if settings.General.ShowImageDesc %}checked{% endif %}>                                          
-              <label>Show Image Description</label>                                                                                                         
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <div class="field checkbox-field">                                                                                                                
-              <input type="checkbox" id="ShowImageLocation" {% if settings.General.ShowImageLocation %}checked{% endif %}>                                  
-              <label>Show Image Location</label>                                                                                                            
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <div class="field checkbox-field">                                                                                                                
-              <input type="checkbox" id="ShowAlbumName" {% if settings.General.ShowAlbumName %}checked{% endif %}>                                          
-              <label>Show Album Name</label>                                                                                                                
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <div class="field checkbox-field">                                                                                                                
-              <input type="checkbox" id="ShowWeatherDescription" {% if settings.General.ShowWeatherDescription %}checked{% endif %}>                        
-              <label>Show Weather</label>                                                                                                                   
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <h2>Appearance</h2>                                                                                                                               
-                                                                                                                                                            
-          <div class="field">                                                                                                                               
-              <label>Primary Color</label>                                                                                                                  
-              <input type="text" id="PrimaryColor" value="{{ settings.General.PrimaryColor }}">                                                             
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <div class="field">                                                                                                                               
-              <label>Secondary Color</label>                                                                                                                
-              <input type="text" id="SecondaryColor" value="{{ settings.General.SecondaryColor }}">                                                         
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <div class="field">                                                                                                                               
-              <label>Base Font Size</label>                                                                                                                 
-              <input type="text" id="BaseFontSize" value="{{ settings.General.BaseFontSize }}">                                                             
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <div class="field">                                                                                                                               
-              <label>Photo Date Format</label>                                                                                                              
-              <input type="text" id="PhotoDateFormat" value="{{ settings.General.PhotoDateFormat }}">                                                       
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <h2>Weather</h2>                                                                                                                                  
-                                                                                                                                                            
-          <div class="field">                                                                                                                               
-              <label>Weather API Key</label>                                                                                                                
-              <input type="text" id="WeatherApiKey" value="{{ settings.General.WeatherApiKey }}">                                                           
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <div class="field">                                                                                                                               
-              <label>Weather Location (lat,long)</label>                                                                                                    
-              <input type="text" id="WeatherLatLong" value="{{ settings.General.WeatherLatLong }}">                                                         
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <div class="field">                                                                                                                               
-              <label>Unit System</label>                                                                                                                    
-              <select id="UnitSystem">                                                                                                                      
-                  <option value="imperial" {% if settings.General.UnitSystem == 'imperial' %}selected{% endif %}>Imperial</option>                          
-                  <option value="metric" {% if settings.General.UnitSystem == 'metric' %}selected{% endif %}>Metric</option>                                
-              </select>                                                                                                                                     
-          </div>                                                                                                                                            
-                                                                                                                                                            
-          <button type="submit">Save Settings</button>                                                                                                      
-      </form>                                                                                                                                               
-                                                                                                                                                            
-      <script>                                                                                                                                              
-          let currentSettings = {{ settings | tojson }};                                                                                                    
-                                                                                                                                                            
-          document.getElementById('settingsForm').addEventListener('submit', async (e) => {                                                                 
-              e.preventDefault();                                                                                                                           
-                                                                                                                                                            
-              // Update General settings from form                                                                                                          
-              currentSettings.General.Interval = parseInt(document.getElementById('Interval').value);                                                       
-              currentSettings.General.TransitionDuration = parseInt(document.getElementById('TransitionDuration').value);                                   
-              currentSettings.General.Layout = document.getElementById('Layout').value;                                                                     
-              currentSettings.General.ImageZoom = document.getElementById('ImageZoom').checked;                                                             
-              currentSettings.General.ImageFill = document.getElementById('ImageFill').checked;                                                             
-              currentSettings.General.ShowClock = document.getElementById('ShowClock').checked;                                                             
-              currentSettings.General.ShowPhotoDate = document.getElementById('ShowPhotoDate').checked;                                                     
-              currentSettings.General.ShowImageDesc = document.getElementById('ShowImageDesc').checked;                                                     
-              currentSettings.General.ShowImageLocation = document.getElementById('ShowImageLocation').checked;                                             
-              currentSettings.General.ShowAlbumName = document.getElementById('ShowAlbumName').checked;                                                     
-              currentSettings.General.ShowWeatherDescription = document.getElementById('ShowWeatherDescription').checked;                                   
-              currentSettings.General.PrimaryColor = document.getElementById('PrimaryColor').value;                                                         
-              currentSettings.General.SecondaryColor = document.getElementById('SecondaryColor').value;                                                     
-              currentSettings.General.BaseFontSize = document.getElementById('BaseFontSize').value;                                                         
-              currentSettings.General.PhotoDateFormat = document.getElementById('PhotoDateFormat').value;                                                   
-              currentSettings.General.WeatherApiKey = document.getElementById('WeatherApiKey').value;                                                       
-              currentSettings.General.WeatherLatLong = document.getElementById('WeatherLatLong').value;                                                     
-              currentSettings.General.UnitSystem = document.getElementById('UnitSystem').value;                                                             
-                                                                                                                                                            
-              try {                                                                                                                                         
-                  const response = await fetch('/api/settings', {                                                                                           
-                      method: 'POST',                                                                                                                       
-                      headers: { 'Content-Type': 'application/json' },                                                                                      
-                      body: JSON.stringify(currentSettings)                                                                                                 
-                  });                                                                                                                                       
-                  const result = await response.json();                                                                                                     
-                  const msg = document.getElementById('message');                                                                                           
-                  if (result.status === 'success') {                                                                                                        
-                      msg.textContent = 'Settings saved!';                                                                                                  
-                      msg.className = 'message success';                                                                                                    
-                  } else {                                                                                                                                  
-                      msg.textContent = 'Error: ' + result.message;                                                                                         
-                      msg.className = 'message error';                                                                                                      
-                  }                                                                                                                                         
-                  setTimeout(() => msg.className = 'message', 3000);                                                                                        
-              } catch (err) {                                                                                                                               
-                  const msg = document.getElementById('message');                                                                                           
-                  msg.textContent = 'Error saving settings';                                                                                                
-                  msg.className = 'message error';                                                                                                          
-              }                                                                                                                                             
-          });                                                                                                                                               
-      </script>                                                                                                                                             
-  </body>                                                                                                                                                   
-  </html> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImmichFrame Settings</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a2e;
+            color: #eee;
+        }
+        h1, h2 { color: #f5deb3; }
+        h2 { margin-top: 30px; border-bottom: 1px solid #444; padding-bottom: 10px; }
+        .field {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #aaa;
+            font-size: 14px;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background: #2a2a4e;
+            color: #eee;
+            font-size: 16px;
+        }
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+        .checkbox-field {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .checkbox-field label {
+            margin: 0;
+            color: #eee;
+        }
+        button {
+            background: #f5deb3;
+            color: #1a1a2e;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+        button:hover { background: #dfc9a0; }
+        .message {
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
+        .success { background: #2e7d32; display: block; }
+        .error { background: #c62828; display: block; }
+        .album-add-row {
+            display: flex;
+            gap: 10px;
+        }
+        .album-add-row select {
+            flex: 1;
+        }
+        .album-add-row button {
+            width: auto;
+            margin-top: 0;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .album-list {
+            margin-top: 10px;
+        }
+        .album-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #2a2a4e;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            border: 1px solid #444;
+        }
+        .album-item-name {
+            font-size: 15px;
+        }
+        .album-item-id {
+            font-size: 12px;
+            color: #888;
+            font-family: monospace;
+        }
+        .album-remove-btn {
+            background: #c62828;
+            color: #eee;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            width: auto;
+            margin: 0;
+        }
+        .album-remove-btn:hover { background: #a01010; }
+        .album-empty {
+            color: #666;
+            font-style: italic;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>ImmichFrame Settings</h1>
+
+    <div id="message" class="message"></div>
+
+    <h2>Albums</h2>
+
+    <div class="field">
+        <label>Add Album</label>
+        <div class="album-add-row">
+            <select id="albumSelect">
+                <option value="">-- Select an album --</option>
+                {% for name, id in albums.items() %}
+                <option value="{{ id }}" data-name="{{ name }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+            <button type="button" id="addAlbumBtn">Add</button>
+        </div>
+    </div>
+
+    <div class="album-list" id="albumList"></div>
+
+    <form id="settingsForm">
+        <h2>Display</h2>
+
+        <div class="field">
+            <label>Interval (seconds)</label>
+            <input type="number" id="Interval" value="{{ settings.General.Interval }}">
+        </div>
+
+        <div class="field">
+            <label>Transition Duration (seconds)</label>
+            <input type="number" id="TransitionDuration" value="{{ settings.General.TransitionDuration }}">
+        </div>
+
+        <div class="field">
+            <label>Layout</label>
+            <select id="Layout">
+                <option value="splitview" {% if settings.General.Layout == 'splitview' %}selected{% endif %}>Split View</option>
+                <option value="single" {% if settings.General.Layout == 'single' %}selected{% endif %}>Single</option>
+            </select>
+        </div>
+
+        <div class="field checkbox-field">
+            <input type="checkbox" id="ImageZoom" {% if settings.General.ImageZoom %}checked{% endif %}>
+            <label>Image Zoom</label>
+        </div>
+
+        <div class="field checkbox-field">
+            <input type="checkbox" id="ImageFill" {% if settings.General.ImageFill %}checked{% endif %}>
+            <label>Image Fill</label>
+        </div>
+
+        <h2>Info Display</h2>
+
+        <div class="field checkbox-field">
+            <input type="checkbox" id="ShowClock" {% if settings.General.ShowClock %}checked{% endif %}>
+            <label>Show Clock</label>
+        </div>
+
+        <div class="field checkbox-field">
+            <input type="checkbox" id="ShowPhotoDate" {% if settings.General.ShowPhotoDate %}checked{% endif %}>
+            <label>Show Photo Date</label>
+        </div>
+
+        <div class="field checkbox-field">
+            <input type="checkbox" id="ShowImageDesc" {% if settings.General.ShowImageDesc %}checked{% endif %}>
+            <label>Show Image Description</label>
+        </div>
+
+        <div class="field checkbox-field">
+            <input type="checkbox" id="ShowImageLocation" {% if settings.General.ShowImageLocation %}checked{% endif %}>
+            <label>Show Image Location</label>
+        </div>
+
+        <div class="field checkbox-field">
+            <input type="checkbox" id="ShowAlbumName" {% if settings.General.ShowAlbumName %}checked{% endif %}>
+            <label>Show Album Name</label>
+        </div>
+
+        <div class="field checkbox-field">
+            <input type="checkbox" id="ShowWeatherDescription" {% if settings.General.ShowWeatherDescription %}checked{% endif %}>
+            <label>Show Weather</label>
+        </div>
+
+        <h2>Appearance</h2>
+
+        <div class="field">
+            <label>Primary Color</label>
+            <input type="text" id="PrimaryColor" value="{{ settings.General.PrimaryColor }}">
+        </div>
+
+        <div class="field">
+            <label>Secondary Color</label>
+            <input type="text" id="SecondaryColor" value="{{ settings.General.SecondaryColor }}">
+        </div>
+
+        <div class="field">
+            <label>Base Font Size</label>
+            <input type="text" id="BaseFontSize" value="{{ settings.General.BaseFontSize }}">
+        </div>
+
+        <div class="field">
+            <label>Photo Date Format</label>
+            <input type="text" id="PhotoDateFormat" value="{{ settings.General.PhotoDateFormat }}">
+        </div>
+
+        <h2>Weather</h2>
+
+        <div class="field">
+            <label>Weather API Key</label>
+            <input type="text" id="WeatherApiKey" value="{{ settings.General.WeatherApiKey }}">
+        </div>
+
+        <div class="field">
+            <label>Weather Location (lat,long)</label>
+            <input type="text" id="WeatherLatLong" value="{{ settings.General.WeatherLatLong }}">
+        </div>
+
+        <div class="field">
+            <label>Unit System</label>
+            <select id="UnitSystem">
+                <option value="imperial" {% if settings.General.UnitSystem == 'imperial' %}selected{% endif %}>Imperial</option>
+                <option value="metric" {% if settings.General.UnitSystem == 'metric' %}selected{% endif %}>Metric</option>
+            </select>
+        </div>
+
+        <button type="submit">Save Settings</button>
+    </form>
+
+    <script>
+        // Album name->id lookup (from server)
+        const albumLookup = {{ albums | tojson }};
+        // Reverse lookup: id->name
+        const idToName = {};
+        for (const [name, id] of Object.entries(albumLookup)) {
+            idToName[id] = name;
+        }
+
+        // Current album IDs in Settings.json
+        let currentAlbumIds = {{ current_album_ids | tojson }};
+
+        function renderAlbumList() {
+            const list = document.getElementById('albumList');
+            if (currentAlbumIds.length === 0) {
+                list.innerHTML = '<div class="album-empty">No albums added yet.</div>';
+                return;
+            }
+            list.innerHTML = currentAlbumIds.map(id => {
+                const name = idToName[id] || 'Unknown';
+                return `<div class="album-item">
+                    <div>
+                        <div class="album-item-name">${name}</div>
+                        <div class="album-item-id">${id}</div>
+                    </div>
+                    <button class="album-remove-btn" onclick="removeAlbum('${id}')">Remove</button>
+                </div>`;
+            }).join('');
+        }
+
+        async function showMessage(text, isError) {
+            const msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.className = isError ? 'message error' : 'message success';
+            setTimeout(() => msg.className = 'message', 3000);
+        }
+
+        document.getElementById('addAlbumBtn').addEventListener('click', async () => {
+            const select = document.getElementById('albumSelect');
+            const albumId = select.value;
+            if (!albumId) return;
+
+            try {
+                const response = await fetch('/api/albums/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ album_id: albumId })
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    currentAlbumIds = result.albums;
+                    renderAlbumList();
+                    select.value = '';
+                    showMessage('Album added!', false);
+                } else {
+                    showMessage(result.message, true);
+                }
+            } catch (err) {
+                showMessage('Error adding album', true);
+            }
+        });
+
+        async function removeAlbum(albumId) {
+            try {
+                const response = await fetch('/api/albums/remove', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ album_id: albumId })
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    currentAlbumIds = result.albums;
+                    renderAlbumList();
+                    showMessage('Album removed!', false);
+                } else {
+                    showMessage(result.message, true);
+                }
+            } catch (err) {
+                showMessage('Error removing album', true);
+            }
+        }
+
+        // Render initial album list
+        renderAlbumList();
+
+        // General settings save
+        let currentSettings = {{ settings | tojson }};
+
+        document.getElementById('settingsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            currentSettings.General.Interval = parseInt(document.getElementById('Interval').value);
+            currentSettings.General.TransitionDuration = parseInt(document.getElementById('TransitionDuration').value);
+            currentSettings.General.Layout = document.getElementById('Layout').value;
+            currentSettings.General.ImageZoom = document.getElementById('ImageZoom').checked;
+            currentSettings.General.ImageFill = document.getElementById('ImageFill').checked;
+            currentSettings.General.ShowClock = document.getElementById('ShowClock').checked;
+            currentSettings.General.ShowPhotoDate = document.getElementById('ShowPhotoDate').checked;
+            currentSettings.General.ShowImageDesc = document.getElementById('ShowImageDesc').checked;
+            currentSettings.General.ShowImageLocation = document.getElementById('ShowImageLocation').checked;
+            currentSettings.General.ShowAlbumName = document.getElementById('ShowAlbumName').checked;
+            currentSettings.General.ShowWeatherDescription = document.getElementById('ShowWeatherDescription').checked;
+            currentSettings.General.PrimaryColor = document.getElementById('PrimaryColor').value;
+            currentSettings.General.SecondaryColor = document.getElementById('SecondaryColor').value;
+            currentSettings.General.BaseFontSize = document.getElementById('BaseFontSize').value;
+            currentSettings.General.PhotoDateFormat = document.getElementById('PhotoDateFormat').value;
+            currentSettings.General.WeatherApiKey = document.getElementById('WeatherApiKey').value;
+            currentSettings.General.WeatherLatLong = document.getElementById('WeatherLatLong').value;
+            currentSettings.General.UnitSystem = document.getElementById('UnitSystem').value;
+
+            try {
+                const response = await fetch('/api/settings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(currentSettings)
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    showMessage('Settings saved!', false);
+                } else {
+                    showMessage('Error: ' + result.message, true);
+                }
+            } catch (err) {
+                showMessage('Error saving settings', true);
+            }
+        });
+    </script>
+</body>
+</html>
