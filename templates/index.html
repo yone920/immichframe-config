@@ -341,6 +341,10 @@
         document.getElementById('settingsForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            // Re-read settings from disk so we don't overwrite album changes
+            const freshResp = await fetch('/api/settings');
+            currentSettings = await freshResp.json();
+
             currentSettings.General.Interval = parseInt(document.getElementById('Interval').value);
             currentSettings.General.TransitionDuration = parseInt(document.getElementById('TransitionDuration').value);
             currentSettings.General.Layout = document.getElementById('Layout').value;
