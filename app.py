@@ -5,18 +5,13 @@ import os
 app = Flask(__name__)
 
 SETTINGS_FILE = "/config/Settings.json"
+ALBUMS_FILE = "/config/albums.json"
 
-# Static album lookup: display name -> album UUID
-# Update these with your actual Immich album names and IDs
-ALBUMS = {
-    "Family Photos": "fa5b1c3d-942a-46fb-9f6e-6e8edc3507e0",
-    "Photography Collection": "02f05303-62cc-4c31-a4c6-b17f3096b1c2",
-    "Nabayi Collection": "f22a99a8-cc52-490a-aa52-28781f7dbb8b",
-    "Rimna Collection": "d8d7bdb5-e105-4fda-bad7-7804e32ea971",
-    "Bruki Collection": "625f2b8c-8b2f-4dad-91d5-6a9fec7e7159",
-    "Generic Album 1": "8bbad008-0341-4031-8786-698ac2575166",
-    "Generic Album 2": "42c3071a-b828-46cd-8e96-940934fbeef9",
-}
+def load_albums():
+    if os.path.exists(ALBUMS_FILE):
+        with open(ALBUMS_FILE, "r") as f:
+            return json.load(f)
+    return {}
 
 def load_settings():
     with open(SETTINGS_FILE, "r") as f:
@@ -30,7 +25,7 @@ def save_settings(settings):
 def index():
     settings = load_settings()
     current_album_ids = settings.get("Accounts", [{}])[0].get("Albums", [])
-    return render_template("index.html", settings=settings, albums=ALBUMS, current_album_ids=current_album_ids)
+    return render_template("index.html", settings=settings, albums=load_albums(), current_album_ids=current_album_ids)
 
 @app.route("/api/settings", methods=["GET"])
 def get_settings():

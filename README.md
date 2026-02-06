@@ -15,12 +15,18 @@ This app needs access to ImmichFrame's `Settings.json` file. Both containers sho
 
 ### 1. Add your albums
 
-Edit the `ALBUMS` dict in `app.py` with your album names and IDs:
+Copy the example file and add your album names and IDs:
 
-```python
-ALBUMS = {
-    "My Album Name": "<album-id>",
-    "Another Album": "<album-id>",
+```bash
+cp albums.example.json /path/to/your/immichframe/albums.json
+```
+
+Edit `albums.json`:
+
+```json
+{
+  "My Album Name": "<album-id>",
+  "Another Album": "<album-id>"
 }
 ```
 
