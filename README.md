@@ -13,15 +13,9 @@ A simple web UI for managing [ImmichFrame](https://github.com/immichFrame/Immich
 
 This app needs access to ImmichFrame's `Settings.json` file. Both containers should share the same settings directory via a volume mount so that changes made here are picked up by ImmichFrame.
 
-### 1. Add your albums
+### 1. Create your albums.json
 
-Copy the example file and add your album names and IDs:
-
-```bash
-cp albums.example.json /path/to/your/immichframe/albums.json
-```
-
-Edit `albums.json`:
+Create an `albums.json` file in your ImmichFrame settings directory with your album names and IDs:
 
 ```json
 {
@@ -32,24 +26,39 @@ Edit `albums.json`:
 
 You can find album IDs in the URL when viewing an album in your Immich web UI.
 
-### 2. Set the volume mount
-
-In `docker-compose.yml`, point to your ImmichFrame settings directory:
+### 2. Create a docker-compose.yml
 
 ```yaml
-volumes:
-  - /path/to/your/immichframe:/config
+services:
+  immichframe-config:
+    image: ghcr.io/yone920/immichframe-config:latest
+    container_name: immichframe-config
+    ports:
+      - "5050:5000"
+    volumes:
+      - /path/to/your/immichframe:/config
+    restart: unless-stopped
 ```
 
-This directory must contain a valid `Settings.json` from ImmichFrame.
+The volume should point to the same directory that contains your ImmichFrame `Settings.json`.
 
-### 3. Build and run
+### 3. Run
 
 ```bash
-docker compose up -d --build
+docker compose up -d
 ```
 
 Access the UI at `http://your-server-ip:5050`.
+
+### Building from source
+
+If you prefer to build locally instead of using the pre-built image:
+
+```bash
+git clone https://github.com/yone920/immichframe-config.git
+cd immichframe-config
+docker compose up -d --build
+```
 
 ## How It Works
 
